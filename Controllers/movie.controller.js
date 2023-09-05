@@ -1,5 +1,5 @@
 const { createMovie } = require('../Queries/movies.queries')
-const postMovie =async()=>{
+const postMovie = async()=>{
   async(req,res)=>{
   try{
   const newMovie = req.body;

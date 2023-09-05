@@ -1,8 +1,14 @@
 const Movie = require("../Modles/movies")
 
-// const getAllMovies = async() => {
-//   const createMovie
-// }
+const getAllMovies = async() => {
+  try{
+    const allMovies = await Movie.find();
+    console.log(allMovies);
+    return allMovies;
+  }catch(e){
+    throw e
+  }
+}
 
 const createMovie = async(movieData) => {
   try{
@@ -16,4 +22,4 @@ const createMovie = async(movieData) => {
   }
 }
 
-module.exports = {createMovie};
+module.exports = {getAllMovies,createMovie};

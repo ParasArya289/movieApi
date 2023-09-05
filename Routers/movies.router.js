@@ -1,7 +1,7 @@
 const express = require('express');
 const moviesRouter = express.Router();
 
-const { createMovie } = require('../Queries/movies.queries')
+const {getAllMovies, createMovie } = require('../Queries/movies.queries')
 
 const {postMovie} = require("../Controllers/movie.controller");
 const moviesData = [
@@ -42,10 +42,24 @@ const moviesData = [
   }
 ]
 
-moviesRouter.get("/",(_,res)=>{
-  res.json(moviesData)
+moviesRouter.get("/",async(_,res)=>{
+  try{
+  const movies = await getAllMovies();
+  res.status(200).json(movies)
+  }catch(e){
+    res.status(500).json({error:"Failed to get Movies"})
+  }
 })
 
-moviesRouter.post("/",postMovie)
+moviesRouter.post("/",async(req,res)=>{
+  try{
+  const newMovie = req.body;
+  const postedMovie = await createMovie(newMovie);
+    
+  res.status(201).json({message:"Movie Added",movie:postedMovie})
+  }catch(e){
+  res.status(500).json({error:"Failed adding a movie"})
+  }
+})
 
 module.exports = moviesRouter;
