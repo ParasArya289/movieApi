@@ -22,4 +22,17 @@ const createMovie = async(movieData) => {
   }
 }
 
-module.exports = {getAllMovies,createMovie};
+const getAMovieByTitle =async(title)=>{
+  try{
+    const movie = await Movie.findOne({title})
+    if(movie){
+      return movie;
+    }else{
+      throw new Error("Requested movie not found")
+    }
+  }catch(error){
+    throw error;
+  }
+}
+
+module.exports = {getAllMovies,createMovie,getAMovieByTitle};

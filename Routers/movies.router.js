@@ -1,7 +1,7 @@
 const express = require('express');
 const moviesRouter = express.Router();
 
-const {getAllMovies, createMovie } = require('../Queries/movies.queries')
+const {getAllMovies, createMovie,getAMovieByTitle} = require('../Queries/movies.queries')
 
 const {postMovie} = require("../Controllers/movie.controller");
 const moviesData = [
@@ -42,6 +42,7 @@ const moviesData = [
   }
 ]
 
+//Get all movies
 moviesRouter.get("/",async(_,res)=>{
   try{
   const movies = await getAllMovies();
@@ -51,6 +52,7 @@ moviesRouter.get("/",async(_,res)=>{
   }
 })
 
+//Create a movie
 moviesRouter.post("/",async(req,res)=>{
   try{
   const newMovie = req.body;
@@ -61,5 +63,17 @@ moviesRouter.post("/",async(req,res)=>{
   res.status(500).json({error:"Failed adding a movie"})
   }
 })
+
+//Get a movie by its title
+moviesRouter.get("/:title",async(req,res)=>{
+  try{
+  const {title} = req.params
+  const movie = await getAMovieByTitle(title);
+  res.status(200).json(movie)
+  }catch(error){
+    res.status(500).json({error})
+  }
+})
+
 
 module.exports = moviesRouter;
